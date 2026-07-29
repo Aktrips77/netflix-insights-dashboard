@@ -131,3 +131,33 @@ The dashboard will open automatically in your browser (usually at
 - Multi-value fields (e.g. a title listed under several countries or
   genres) are exploded so "Top 10" charts count each occurrence
   correctly rather than only the first value.
+
+---
+
+## Portfolio Highlights
+
+- Global filters for content type, country, genre, rating, release year, and title search.
+- Filter-aware KPI cards and rule-based insights, including content mix, catalog leaders, and oldest/newest releases.
+- Interactive, responsive Plotly charts with unified Netflix-inspired styling.
+- A sortable catalog explorer with a download of the current filtered result set.
+
+## Screenshots
+
+Add screenshots of the deployed dashboard here after deployment. Recommended views:
+
+1. Full dashboard overview with the default catalog.
+2. A filtered genre or country analysis.
+3. Catalog explorer and CSV download action.
+
+## Deploy to Streamlit Community Cloud
+
+1. Fork or push this repository to GitHub.
+2. In Streamlit Community Cloud, create a new app from the repository.
+3. Select the `main` branch and set `app.py` as the entry point.
+4. Deploy. Streamlit installs dependencies from `requirements.txt` automatically.
+
+## Future Improvements
+
+- Add automated unit tests for cleaning and filtering logic.
+- Add drill-down detail views for countries and genres.
+- Add a dataset refresh date and data-source attribution in the interface.

@@ -31,8 +31,17 @@ def _apply_dark_theme(fig: go.Figure, title: str = "") -> go.Figure:
         plot_bgcolor=CARD_BG,
         font=dict(color=TEXT_COLOR, family="Helvetica, Arial, sans-serif"),
         title_font=dict(size=18, color=TEXT_COLOR),
-        margin=dict(l=20, r=20, t=60, b=20),
-        legend=dict(bgcolor="rgba(0,0,0,0)"),
+        margin=dict(l=24, r=24, t=58, b=28),
+        height=360,
+        legend=dict(
+            bgcolor="rgba(0,0,0,0)",
+            orientation="h",
+            yanchor="bottom",
+            y=1.02,
+            xanchor="right",
+            x=1,
+        ),
+        hovermode="closest",
         hoverlabel=dict(bgcolor="#000000", font_color=TEXT_COLOR),
     )
     fig.update_xaxes(gridcolor="#333333", zerolinecolor="#333333", color=MUTED_TEXT)
@@ -57,6 +66,7 @@ def movies_vs_tv_pie(df: pd.DataFrame) -> go.Figure:
         textinfo="percent+label",
         textfont_size=14,
         marker=dict(line=dict(color=DARK_BG, width=2)),
+        hovertemplate="%{label}<br>%{value:,} titles (%{percent})<extra></extra>",
     )
     return _apply_dark_theme(fig, "Movies vs TV Shows")
 
@@ -82,7 +92,11 @@ def top_genres_bar(df: pd.DataFrame, top_n: int = 10) -> go.Figure:
         color_continuous_scale=["#564D4D", NETFLIX_RED],
         text="count",
     )
-    fig.update_traces(textposition="outside", cliponaxis=False)
+    fig.update_traces(
+        textposition="outside",
+        cliponaxis=False,
+        hovertemplate="%{y}<br><b>%{x:,}</b> titles<extra></extra>",
+    )
     fig.update_layout(coloraxis_showscale=False, yaxis_title="", xaxis_title="Titles")
     return _apply_dark_theme(fig, f"Top {top_n} Genres")
 
@@ -108,7 +122,11 @@ def top_countries_bar(df: pd.DataFrame, top_n: int = 10) -> go.Figure:
         color_continuous_scale=["#564D4D", NETFLIX_RED],
         text="count",
     )
-    fig.update_traces(textposition="outside", cliponaxis=False)
+    fig.update_traces(
+        textposition="outside",
+        cliponaxis=False,
+        hovertemplate="%{y}<br><b>%{x:,}</b> titles<extra></extra>",
+    )
     fig.update_layout(coloraxis_showscale=False, yaxis_title="", xaxis_title="Titles")
     return _apply_dark_theme(fig, f"Top {top_n} Countries")
 
@@ -132,7 +150,10 @@ def content_added_over_time(df: pd.DataFrame) -> go.Figure:
         markers=True,
         color_discrete_map={"Movie": NETFLIX_RED, "TV Show": "#F5F5F1"},
     )
-    fig.update_traces(line=dict(width=3))
+    fig.update_traces(
+        line=dict(width=3),
+        hovertemplate="%{fullData.name}<br>%{x}: <b>%{y:,}</b> titles<extra></extra>",
+    )
     fig.update_layout(xaxis_title="Year Added", yaxis_title="Titles Added")
     return _apply_dark_theme(fig, "Content Added Over Time")
 
@@ -151,7 +172,11 @@ def rating_distribution_bar(df: pd.DataFrame) -> go.Figure:
         color_continuous_scale=["#564D4D", NETFLIX_RED],
         text="count",
     )
-    fig.update_traces(textposition="outside", cliponaxis=False)
+    fig.update_traces(
+        textposition="outside",
+        cliponaxis=False,
+        hovertemplate="Rating %{x}<br><b>%{y:,}</b> titles<extra></extra>",
+    )
     fig.update_layout(coloraxis_showscale=False, xaxis_title="Rating", yaxis_title="Titles")
     return _apply_dark_theme(fig, "Rating Distribution")
 
@@ -166,7 +191,11 @@ def movie_duration_histogram(df: pd.DataFrame) -> go.Figure:
         nbins=30,
         color_discrete_sequence=[NETFLIX_RED],
     )
-    fig.update_traces(marker_line_color=DARK_BG, marker_line_width=1)
+    fig.update_traces(
+        marker_line_color=DARK_BG,
+        marker_line_width=1,
+        hovertemplate="%{x} minutes<br><b>%{y:,}</b> movies<extra></extra>",
+    )
     fig.update_layout(
         xaxis_title="Duration (minutes)",
         yaxis_title="Number of Movies",

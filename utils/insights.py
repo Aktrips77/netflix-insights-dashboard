@@ -63,4 +63,23 @@ def build_key_insights(df: pd.DataFrame) -> list[dict[str, str]]:
             }
         )
 
+    valid_release_years = df["release_year"].dropna()
+    if not valid_release_years.empty:
+        oldest_year = int(valid_release_years.min())
+        newest_year = int(valid_release_years.max())
+        oldest_title = df.loc[df["release_year"].eq(oldest_year), "title"].iloc[0]
+        newest_title = df.loc[df["release_year"].eq(newest_year), "title"].iloc[0]
+        insights.extend(
+            [
+                {
+                    "title": "Oldest title",
+                    "text": f"{oldest_title} is the earliest release in this view ({oldest_year}).",
+                },
+                {
+                    "title": "Newest title",
+                    "text": f"{newest_title} is the latest release in this view ({newest_year}).",
+                },
+            ]
+        )
+
     return insights

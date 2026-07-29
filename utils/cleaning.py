@@ -128,7 +128,10 @@ def apply_filters(
     df: pd.DataFrame,
     content_types: list[str] | None = None,
     countries: list[str] | None = None,
+    genres: list[str] | None = None,
+    ratings: list[str] | None = None,
     year_range: tuple[int, int] | None = None,
+    title_query: str | None = None,
 ) -> pd.DataFrame:
     """
     Apply sidebar filter selections to the cleaned dataframe.
@@ -138,7 +141,10 @@ def apply_filters(
         content_types: List of selected content types ("Movie", "TV Show").
         countries: List of selected countries (matches primary_country
             as well as any country in country_list).
+        genres: List of selected genres, matched against every listed genre.
+        ratings: List of selected content ratings.
         year_range: (min_year, max_year) inclusive range on release_year.
+        title_query: Optional case-insensitive title search phrase.
 
     Returns:
         Filtered dataframe.
@@ -155,11 +161,24 @@ def apply_filters(
             )
         ]
 
+    if genres:
+        filtered = filtered[
+            filtered["genre_list"].apply(lambda values: any(g in genres for g in values))
+        ]
+
+    if ratings:
+        filtered = filtered[filtered["rating"].isin(ratings)]
+
     if year_range:
         min_year, max_year = year_range
         filtered = filtered[
             (filtered["release_year"] >= min_year)
             & (filtered["release_year"] <= max_year)
+        ]
+
+    if title_query and title_query.strip():
+        filtered = filtered[
+            filtered["title"].str.contains(title_query.strip(), case=False, na=False)
         ]
 
     return filtered
